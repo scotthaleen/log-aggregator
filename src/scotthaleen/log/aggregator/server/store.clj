@@ -38,5 +38,7 @@
                                            add-content
                                            host file line-num content)))
 
-(defn construct-store []
+(defn construct-store
+  "Simple in memory key value store"
+  []
   (map->Store {}))

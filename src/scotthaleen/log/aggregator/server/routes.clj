@@ -12,8 +12,7 @@
    [io.pedestal.interceptor.chain :refer [terminate]]
    [io.pedestal.http.route :as route]
    [ring.util.response :refer [response not-found content-type]]
-   [scotthaleen.log.aggregator.server.store :as store]
-   ))
+   [scotthaleen.log.aggregator.server.store :as store]))
 
 
 
@@ -111,6 +110,7 @@
              (assoc-in context [:request :store] store))}))
 
 (defn build-routes
+  "builds and returns the routes for pedestal"
   [store]
   (route/expand-routes
    [[
