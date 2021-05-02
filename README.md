@@ -7,10 +7,10 @@
 
 ## Log Aggregator Server
 
-Log Aggregator Server is fairly simple, it's primary responsiblity is receiving log data from the log forwarder
+Log Aggregator Server is fairly simple, it's primary responsibility is receiving log data from the log forwarder
 and persisting to a key value store. It builds a composite key of "host+file+line" and a value of the content
-on that line.  This allows for immutable and evenntually consitent logs.  If duplicate data is received it is
-simpily overwritten.  If data is missing the log forwarder can resend the entire file data with out worries of duplications.
+on that line.  This allows for immutable and eventually consistent logs.  If duplicate data is received it is
+simply overwritten.  If data is missing the log forwarder can resend the entire file data with out worries of duplications.
 
 For the purpose of a prototype the server also serves the log data back. These would ideally be 2 different servers in
 a production environment to allow independent scaling of Reads and Writes. Since the log aggregator server is mainly
@@ -20,12 +20,12 @@ recreating the log file content.
 
 ## Log Forwarder
 
-The log forwarder has much more compleity, for the prototype it is simplified to running one instance per log file.
+The log forwarder has much more complexity, for the prototype it is simplified to running one instance per log file.
 It is currently stateless but could be changed to store offsets that have been processed and add logic to pickup where
-it left off processing.  Currently it starts at the begining of the file and sends all the content of a file.
+it left off processing.  Currently it starts at the beginning of the file and sends all the content of a file.
 
-The Log Forwarder utilizes [core.async](https://github.com/clojure/core.async) to seperate concernes as well as
-allow for back pressure if the aggregator server is being slow or intermitent.
+The Log Forwarder utilizes [core.async](https://github.com/clojure/core.async) to separate concerns as well as
+allow for back pressure if the aggregator server is being slow or intermittent.
 
  * the log reading process starts in its own go block. It will read a line from the log file (if it is not at the end
    of the file already) When it has a new line it will _put_ the line on the channel.  As part of the back pressure
@@ -75,7 +75,7 @@ Starting a **Aggregator Server**
 $ lein server
 
 # or from java
-$ java -cp log-aggregator-*-standalone.jar scotthaleen.scotthaleen.log.aggregator.app
+$ java -cp log-aggregator-*-standalone.jar scotthaleen.log.aggregator.app
 ```
 
 Starting a **Log Forwarder**
@@ -83,7 +83,7 @@ Starting a **Log Forwarder**
 $ lein forwarder -- http://localhost:3000/store/batch <log_file>
 
 # or from java
-$ java -cp log-aggregator-*-standalone.jar scotthaleen.scotthaleen.log.aggregator.log_forwarder http://localhost:3000/store/batch <log_file>
+$ java -cp log-aggregator-*-standalone.jar scotthaleen.log.aggregator.log_forwarder http://localhost:3000/store/batch <log_file>
 ```
 
 
@@ -146,7 +146,7 @@ scotts-macbook.home
 ```
 
 You should also be able to see the `:host scotts-macbook.home,` in the log messages of shells **#3** and **#4**
-also, note the fully qualifed path to the file that is being forwarded.  We need these variables to lookup
+also, note the fully qualified path to the file that is being forwarded.  We need these variables to lookup
 the file from the aggregator server.  You should be able to see the full path in the shells as well.
 
 For example:
@@ -181,4 +181,3 @@ you will see the new content
 ## License
 
 Copyright © 2018
-
