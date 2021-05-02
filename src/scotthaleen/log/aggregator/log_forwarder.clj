@@ -7,7 +7,8 @@
    [clojure.tools.logging :as log])
   (:import [java.io RandomAccessFile]
            [java.util UUID]
-           [java.net InetAddress]))
+           [java.net InetAddress])
+  (:gen-class))
 
 (set! *warn-on-reflection* true)
 
@@ -36,7 +37,8 @@
    :content content})
 
 (defn post-data!
-  "send data to server, retry N times before failing"
+  "send data to server, retry N times before failing
+   returns true on success, false on failure"
   [url data & {:keys [retry-count] :or {retry-count 5}}]
   (try
     (log/debug "POSTING: " data)
@@ -54,8 +56,7 @@
     true
     (catch Exception e
       (log/error e "failed to send data")
-      false
-      )))
+      false)))
 
 (defn tail-file!
   "Start a tail on file
@@ -71,10 +72,10 @@
   [file-path out-ch]
   (let [raf #^RandomAccessFile (RandomAccessFile. file-path "r")]
     (go-loop [line-num 0]
-      (log/info "reading line " line-num)
       (recur
        (if-let [line (.readLine raf)]
          (do
+           (log/info "reading line " line-num)
            (>! out-ch {:file-path file-path :line-num line-num :content line})
            (inc line-num))
          (do (Thread/sleep 1000)
@@ -91,7 +92,8 @@
   (go-loop []
     (let [msg-batch (<! in-ch)]
       (log/debug "recieved: " msg-batch)
-      (if (post-data!
+      (if-not
+          (post-data!
            server-url
            {:batch
             (map
@@ -112,7 +114,7 @@
   (if (not= 2 (count args))
     (do
       (println "Missing argument file-path")
-      (println "Usage: java -cp log-aggregator.jar scotthaleen.log.aggregator.log-forwarder  <aggregator server url> <file-path>")
+      (println "Usage: java -cp log-aggregator.jar scotthaleen.log.aggregator.log_forwarder  <aggregator server url> <file-path>")
       (System/exit 1)))
 
   (let [file-path (second args)

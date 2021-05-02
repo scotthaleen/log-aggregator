@@ -9,8 +9,7 @@
   "
   adds io.pedestal.http prefix to all :http config options
   (pedestal-config {:port 80})
-  ;;=> {:io.pedestal.http/port 80}
-  "
+  ;;=> {:io.pedestal.http/port 80}"
   [config]
   (into {}
         (for [[k v] config]
@@ -41,7 +40,6 @@
 
 (defn construct-server
   "  Constructs a Pedestal Server with Map of configuration options
-     http://pedestal.github.io/pedestal/io.pedestal.http.html#var-default-interceptors
-  "
+     http://pedestal.github.io/pedestal/io.pedestal.http.html#var-default-interceptors"
   [options]
   (map->PedestalServer options))
