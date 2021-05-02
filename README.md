@@ -1,7 +1,7 @@
 # Log Aggregator Prototype
 
 
-![diagram](docs/architecture_diagram.png "Architecture Diagram")
+![diagram](doc/architecture_diagram.png "Architecture Diagram")
 
 # Components
 
@@ -47,7 +47,7 @@ allow for back pressure if the aggregator server is being slow or intermittent.
 
 
 
-![log-forwarder](docs/log-forwarder.png "log forwarder")
+![log-forwarder](doc/log-forwarder.png "log forwarder")
 
 
 
@@ -158,9 +158,9 @@ For example:
 This shows we are looking for **host=scotts-macbook.home** and **file=/Users/scott/Source/log-aggregator/test2.txt**
 
 
-Assuming everything is working properly we should be able to download the files
-@ [http://localhost:3000/store/log?host=scotts-macbook.home&file=/Users/scott/Source/log-aggregator/test1.txt]
-@ [http://localhost:3000/store/log?host=scotts-macbook.home&file=/Users/scott/Source/log-aggregator/test2.txt]
+Assuming everything is working properly we should be able to download the files<br/>
+@ (http://localhost:3000/store/log?host=scotts-macbook.home&file=/Users/scott/Source/log-aggregator/test1.txt)<br/>
+@ (http://localhost:3000/store/log?host=scotts-macbook.home&file=/Users/scott/Source/log-aggregator/test2.txt)<br/>
 
 Just replace the _host={}_ and _file={}_
 
@@ -173,7 +173,7 @@ $ echo "hello\nworld" >> test1.txt
 ```
 
 This should trigger the forwarder to pickup the new lines and send them to the aggregator.  If we refresh the page
-for [http://localhost:3000/store/log?host=scotts-macbook.home&file=/Users/scott/Source/log-aggregator/test1.txt]
+for (http://localhost:3000/store/log?host=scotts-macbook.home&file=/Users/scott/Source/log-aggregator/test1.txt)
 you will see the new content
 
 
